@@ -27,6 +27,7 @@ import ModerationSource from '~/data/ModerationSource';
 import LevelingSource from '~/data/LevelingSource';
 import EconomySource from '~/data/EconomySource';
 import NotifierSource from '~/data/NotifierSource';
+import GiveawaysSource from '~/data/GiveawaysSource';
 
 import Sidebar from '~/components/Sidebar.vue';
 import Spinner from '~/components/Spinner.vue';
@@ -51,6 +52,7 @@ const sources = reactive({
 	[LevelingSource.id]: LevelingSource,
 	[EconomySource.id]: EconomySource,
 	[NotifierSource.id]: NotifierSource,
+	[GiveawaysSource.id]: GiveawaysSource,
 });
 
 const showBackToTop = ref(false);

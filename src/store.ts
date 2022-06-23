@@ -7,6 +7,7 @@ import ModerationSource from './data/ModerationSource';
 import LevelingSource from './data/LevelingSource';
 import EconomySource from './data/EconomySource';
 import NotifierSource from './data/NotifierSource';
+import GiveawaysSource from './data/GiveawaysSource';
 
 import { Documentation, DocumentationCustomFile } from './interfaces/Documentation';
 import { SearchTerm, DocumentType, DocumentLink } from './util/search';
@@ -34,6 +35,7 @@ export const store = createStore<State>({
 			{ source: LevelingSource, name: LevelingSource.name, id: LevelingSource.id },
 			{ source: EconomySource, name: EconomySource.name, id: EconomySource.id },
 			{ source: NotifierSource, name: NotifierSource.name, id: NotifierSource.id },
+			{ source: GiveawaysSource, name: GiveawaysSource.name, id: GiveawaysSource.id },
 		],
 		source: HandlerSource,
 		tag: HandlerSource.defaultTag,
