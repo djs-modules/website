@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon.png" />
+		<link rel="icon" type="image/png" sizes="16x16" href="/favicon.png" />
+		<meta name="apple-mobile-web-app-title" content="@djs-modules">
+		<meta name="application-name" content="@djs-modules">
+		<meta name="msapplication-TileColor" content="#090a16">
+		<meta name="theme-color" content="#090a16">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>@djs-modules</title>
+		<meta
+			name="description"
+			content="djs-modules is a small organization that contains modules that can create different systems in your Discord bot."
+		/>
+
+		<meta property="og:title" content="@djs-modules" />
+		<meta
+			property="og:description"
+			content="djs-modules is a small organization that contains modules that can create different systems in your Discord bot."
+		/>
+		<script type="module" crossorigin src="/assets/index.3b7e8973.js"></script>
+		<link rel="stylesheet" href="/assets/index.558e1da3.css">
+	<link rel="manifest" href="/manifest.webmanifest"></head>
+	<body>
+		<noscript>
+			<strong
+				>Sorry, but the @djs-modules organization website doesn't work properly without JavaScript enabled. Please enable it to
+				continue.</strong
+			>
+		</noscript>
+		<script>
+			(() => {
+				const prefersDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+				const persistedColorPreference = localStorage.getItem('theme') || 'auto';
+				if (persistedColorPreference === 'dark' || (prefersDarkMode && persistedColorPreference !== 'light')) {
+					document.documentElement.classList.toggle('dark', true);
+				}
+			})();
+		</script>
+		<div id="app" class="h-full"></div>
+		
+	</body>
+</html>
