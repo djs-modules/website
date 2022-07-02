@@ -31,8 +31,6 @@ import NotifierSource from '~/data/NotifierSource';
 import { useStore } from '~/store';
 import { fetchError } from '~/util/fetchError';
 
-
-
 const router = useRouter();
 const route = useRoute();
 const store = useStore();
