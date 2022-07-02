@@ -340,9 +340,9 @@
 </template>
 
 <script setup lang="ts">
+import { useBreakpoints, breakpointsTailwind, whenever, onClickOutside } from '@vueuse/core';
 import { ref, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { useBreakpoints, breakpointsTailwind, whenever, onClickOutside } from '@vueuse/core';
 
 import { isDarkMode, toggleDarkMode } from '~/util/darkMode';
 import { search } from '~/util/search';

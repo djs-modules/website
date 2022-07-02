@@ -299,7 +299,7 @@ import {
 import { onClickOutside, useBreakpoints, breakpointsTailwind, whenever } from '@vueuse/core';
 import { ref, computed, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import MainSource from '~/data/MainSource';
+import EconomySource from '~/data/EconomySource';
 import { useStore } from '~/store';
 import { usePreferredReducedMotion, toggleReducedMotion } from '~/util/ReducedMotion';
 import { isShowPrivates } from '~/util/showPrivates';
@@ -322,11 +322,11 @@ const branches = computed(() => store.state.branches);
 const routeSource = computed(() => sources.value.find((source) => route.params.source === source.id));
 
 const selectedSource = ref({
-	source: routeSource.value?.source ?? MainSource,
-	name: routeSource.value?.name ?? MainSource.name,
+	source: routeSource.value?.source ?? EconomySource,
+	name: routeSource.value?.name ?? EconomySource.name,
 });
 // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-const selectedBranch = ref(route.params.tag ?? MainSource.defaultTag);
+const selectedBranch = ref(route.params.tag ?? EconomySource.defaultTag);
 
 const visibleClasses = computed(() =>
 	isShowPrivates.value ? docs.value?.classes : docs.value?.classes.filter((cls) => cls.access !== 'private'),
