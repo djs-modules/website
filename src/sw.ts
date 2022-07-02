@@ -44,7 +44,7 @@ setDefaultHandler((args) => {
 });
 
 registerRoute(
-	/^https:\/\/raw\.githubusercontent\.com\/discordjs\/.*\.json/i,
+	/^https:\/\/raw\.githubusercontent\.com\/djs-modules\/.*\.json/i,
 	new NetworkFirst({
 		cacheName: 'djs-docs-v3',
 		plugins: [

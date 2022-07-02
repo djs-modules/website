@@ -44,7 +44,7 @@ const { Ctrl_K } = useMagicKeys({
 });
 
 const sources = reactive({
-	main: HandlerSource,
+	main: EconomySource,
 	[HandlerSource.id]: HandlerSource,
 	[ModerationSource.id]: ModerationSource,
 	[LevelingSource.id]: LevelingSource,

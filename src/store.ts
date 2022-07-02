@@ -284,14 +284,6 @@ export const store = createStore<State>({
 				documentation.links[t.name] = { name: 'docs-source-tag-typedef-typedef', params: { typedef: t.name } };
 			}
 
-			// Workaround for the single use of inter-source see also linking
-			if (inputSource.id === 'commando') {
-				documentation.links.Message = {
-					name: 'docs-source-tag-class-class',
-					params: { source: 'main', tag: 'master', class: 'Message' },
-				};
-			}
-
 			documentation.source = inputSource.source;
 			documentation.id = inputSource.id;
 			documentation.tag = inputTag;

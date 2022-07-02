@@ -29,7 +29,7 @@ export default class DocsSource {
 
 	public repo = this.options.repo;
 
-	public defaultTag = 'main';
+	public defaultTag = 'stable';
 
 	public defaultFile = this.options.defaultFile ?? { category: 'general', id: 'welcome' };
 
@@ -117,7 +117,7 @@ export default class DocsSource {
 	public async fetchDocs(tag?: string | null) {
 		const tags = await this.fetchTags();
 		const res = await fetch(
-			`https://raw.githubusercontent.com/${this.docsRepo}/main/${this.id}/${tag ?? this.defaultTag}.json`,
+			`https://raw.githubusercontent.com/${this.docsRepo}/docs/${tag ?? this.defaultTag}.json`,
 		);
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-return
 		return [tags, await json(res)];
