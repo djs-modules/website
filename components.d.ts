@@ -41,7 +41,6 @@ declare module '@vue/runtime-core' {
 		Sidebar: typeof import('./src/components/Sidebar.vue')['default'];
 		SourceButton: typeof import('./src/components/SourceButton.vue')['default'];
 		Spinner: typeof import('./src/components/Spinner.vue')['default'];
-		Stats: typeof import('./src/components/Stats.vue')['default'];
 		SWBanner: typeof import('./src/components/SWBanner.vue')['default'];
 		TypeLink: typeof import('./src/components/TypeLink.vue')['default'];
 		Types: typeof import('./src/components/Types.vue')['default'];
