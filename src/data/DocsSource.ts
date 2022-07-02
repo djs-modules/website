@@ -6,7 +6,6 @@ import semver from 'semver';
 interface DocsSourceOptions {
 	id: string;
 	name: string;
-	global: string;
 	docsRepo: string;
 	repo: string;
 	defaultTag?: string;
@@ -25,8 +24,6 @@ export default class DocsSource {
 	public id = this.options.id;
 
 	public name = this.options.name;
-
-	public global = this.options.global;
 
 	public docsRepo = this.options.docsRepo;
 

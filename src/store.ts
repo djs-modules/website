@@ -5,19 +5,16 @@
 import { InjectionKey } from 'vue';
 import { createStore, useStore as baseUseStore, Store } from 'vuex';
 import DocsSource from './data/DocsSource';
-import MainSource from './data/MainSource';
-import ProxySource from './data/ProxySource';
+import EconomySource from './data/EconomySource';
+import GiveawaysSource from './data/GiveawaysSource';
+import HandlerSource from './data/HandlerSource';
+import LevelingSource from './data/LevelingSource';
+import ModerationSource from './data/ModerationSource';
+import NotifierSource from './data/NotifierSource';
 import { Documentation, DocumentationCustomFile } from './interfaces/Documentation';
 import { fetchError } from './util/fetchError';
 import { SearchTerm, DocumentType, DocumentLink } from './util/search';
 import { splitName } from './util/splitName';
-import BuildersSource from '~/data/BuildersSource';
-import CollectionSource from '~/data/CollectionSource';
-// import CommandoSource from '~/data/CommandoSource';
-import RESTSource from '~/data/RESTSource';
-// import RPCSource from '~/data/RPCSource';
-import VoiceSource from '~/data/VoiceSource';
-
 export interface State {
 	sources: { source: DocsSource; name: string; id: string }[];
 	source: DocsSource | null;
@@ -25,11 +22,6 @@ export interface State {
 	docs: Documentation | null;
 	branches: string[];
 	file: DocumentationCustomFile | null;
-	stats: {
-		downloads: string;
-		stars: string;
-		contributors: string;
-	};
 	searchIndex: SearchTerm[];
 	searchRef: DocumentLink[];
 }
@@ -39,25 +31,18 @@ export const key: InjectionKey<Store<State>> = Symbol('docs');
 export const store = createStore<State>({
 	state: {
 		sources: [
-			{ source: MainSource, name: MainSource.name, id: MainSource.id },
-			{ source: CollectionSource, name: CollectionSource.name, id: CollectionSource.id },
-			{ source: BuildersSource, name: BuildersSource.name, id: BuildersSource.id },
-			{ source: VoiceSource, name: VoiceSource.name, id: VoiceSource.id },
-			{ source: ProxySource, name: ProxySource.name, id: ProxySource.id },
-			{ source: RESTSource, name: RESTSource.name, id: RESTSource.id },
-			// { source: CommandoSource, name: CommandoSource.name, id: CommandoSource.id },
-			// { source: RPCSource, name: RPCSource.name, id: RPCSource.id },
+			{ source: EconomySource, name: EconomySource.name, id: EconomySource.id },
+			{ source: GiveawaysSource, name: GiveawaysSource.name, id: GiveawaysSource.id },
+			{ source: HandlerSource, name: HandlerSource.name, id: HandlerSource.id },
+			{ source: LevelingSource, name: LevelingSource.name, id: LevelingSource.id },
+			{ source: ModerationSource, name: ModerationSource.name, id: ModerationSource.id },
+			{ source: NotifierSource, name: NotifierSource.name, id: NotifierSource.id },
 		],
-		source: MainSource,
-		tag: MainSource.defaultTag,
+		source: EconomySource,
+		tag: EconomySource.defaultTag,
 		docs: null,
 		branches: [],
 		file: null,
-		stats: {
-			downloads: `${(225_000_000).toLocaleString()}+`,
-			stars: `${(11_000).toLocaleString()}+`,
-			contributors: `${(100).toLocaleString()}+`,
-		},
 		searchIndex: [],
 		searchRef: [],
 	},
@@ -79,56 +64,12 @@ export const store = createStore<State>({
 			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 			state.file = file;
 		},
-		setStats(state, { stats }: { stats: { downloads: string; stars: string; contributors: string } }) {
-			state.stats = stats;
-		},
 		setSearchIndex(state, { searchIndex, searchRef }: { searchIndex: SearchTerm[]; searchRef: DocumentLink[] }) {
 			state.searchIndex = searchIndex;
 			state.searchRef = searchRef;
 		},
 	},
 	actions: {
-		fetchStats: async ({ commit }) => {
-			let downloads = 0;
-			let stars = 0;
-			let contributors = 0;
-
-			const toJSON = (res: Response) => res.json();
-			// eslint-disable-next-line @typescript-eslint/no-empty-function
-			const noop = () => {};
-
-			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-			const [fetchedDownloads, fetchedStars, fetchedContributors] = await Promise.all([
-				fetch('https://api.npmjs.org/downloads/range/2013-08-21:2100-08-21/discord.js').then(toJSON, noop),
-				fetch('https://api.github.com/repos/discordjs/discord.js').then(toJSON, noop),
-				fetch('https://api.github.com/repos/discordjs/discord.js/stats/contributors').then(toJSON, noop),
-			]);
-
-			if (fetchedDownloads?.downloads) {
-				downloads = 0;
-
-				for (const item of fetchedDownloads.downloads) {
-					downloads += item.downloads;
-				}
-			}
-			if (fetchedStars?.stargazers_count) {
-				// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-				stars = fetchedStars.stargazers_count;
-			}
-			if (fetchedContributors) {
-				// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-				contributors = fetchedContributors.length;
-			}
-			commit({
-				type: 'setStats',
-				stats: {
-					downloads: `${downloads.toLocaleString()}+`,
-					stars: `${stars.toLocaleString()}+`,
-					contributors: `${contributors.toLocaleString()}+`,
-				},
-			});
-		},
-
 		/**
 		 * Idea: inverted index based on the understanding that all the names here are some sort of concatenated string
 		 * Generate a graph of words that are related
@@ -351,7 +292,6 @@ export const store = createStore<State>({
 				};
 			}
 
-			documentation.global = inputSource.global;
 			documentation.source = inputSource.source;
 			documentation.id = inputSource.id;
 			documentation.tag = inputTag;

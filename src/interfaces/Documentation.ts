@@ -163,7 +163,6 @@ export interface Documentation {
 	custom: DocumentationCustom[];
 	externals: DocumentationExternal[];
 	functions?: DocumentationClassMethod[];
-	global: string;
 	interfaces: DocumentationInterface[];
 	links: DocumentationLink[];
 	meta: DocumentationMeta;

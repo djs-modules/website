@@ -18,42 +18,41 @@
 import { whenever, useEventListener, useMagicKeys } from '@vueuse/core';
 import { reactive, ref, computed, watchEffect, onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
-import ProxySource from '../data/ProxySource';
+
 import BackToTop from '~/components/BackToTop.vue';
 import Sidebar from '~/components/Sidebar.vue';
 import Spinner from '~/components/Spinner.vue';
-import BuildersSource from '~/data/BuildersSource';
-import CollectionSource from '~/data/CollectionSource';
-// import CommandoSource from '~/data/CommandoSource';
-import MainSource from '~/data/MainSource';
-import RESTSource from '~/data/RESTSource';
-// import RPCSource from '~/data/RPCSource';
-import VoiceSource from '~/data/VoiceSource';
+import EconomySource from '~/data/EconomySource';
+import GiveawaysSource from '~/data/GiveawaysSource';
+import HandlerSource from '~/data/HandlerSource';
+import LevelingSource from '~/data/LevelingSource';
+import ModerationSource from '~/data/ModerationSource';
+import NotifierSource from '~/data/NotifierSource';
 import { useStore } from '~/store';
 import { fetchError } from '~/util/fetchError';
+
+
 
 const router = useRouter();
 const route = useRoute();
 const store = useStore();
-const { Ctrl_K, MetaLeft_K } = useMagicKeys({
+const { Ctrl_K } = useMagicKeys({
 	passive: false,
 	onEventFired(e) {
-		if ((e.ctrlKey || e.metaKey) && e.key === 'k' && e.type === 'keydown') {
+		if (e.ctrlKey && e.key === 'k' && e.type === 'keydown') {
 			e.preventDefault();
 		}
 	},
 });
 
 const sources = reactive({
-	[MainSource.id]: MainSource,
-	main: MainSource,
-	[CollectionSource.id]: CollectionSource,
-	[BuildersSource.id]: BuildersSource,
-	[VoiceSource.id]: VoiceSource,
-	[ProxySource.id]: ProxySource,
-	[RESTSource.id]: RESTSource,
-	// [CommandoSource.id]: CommandoSource,
-	// [RPCSource.id]: RPCSource,
+	main: HandlerSource,
+	[HandlerSource.id]: HandlerSource,
+	[ModerationSource.id]: ModerationSource,
+	[LevelingSource.id]: LevelingSource,
+	[EconomySource.id]: EconomySource,
+	[NotifierSource.id]: NotifierSource,
+	[GiveawaysSource.id]: GiveawaysSource,
 });
 
 const showBackToTop = ref(false);
@@ -77,24 +76,19 @@ whenever(Ctrl_K, () => {
 	document.getElementById('search')?.focus();
 });
 
-whenever(MetaLeft_K, () => {
-	document.getElementById('search')?.focus();
-});
-
 const watchRoute = async () => {
 	if (route.path === '/') return;
 	if (
 		route.params.source &&
 		route.params.tag &&
-		// @ts-expect-error
-		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition, @typescript-eslint/no-unsafe-member-access
+		// @ts-expect-error eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 		(docs.value?.id !== sources[route.params.source].id || docs.value?.tag !== route.params.tag)
 	) {
 		await store.dispatch({
 			type: 'fetchDocs',
 			// @ts-expect-error
 			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-			inputSource: sources[route.params.source] ?? MainSource,
+			inputSource: sources[route.params.source] ?? HandlerSource,
 			// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 			inputTag: route.params.tag ?? tag.value,
 		});
@@ -112,10 +106,10 @@ const watchRoute = async () => {
 		return router.replace({
 			name: 'docs-source-tag-category-file',
 			params: {
-				source: MainSource.id,
-				tag: MainSource.defaultTag,
-				category: MainSource.defaultFile.category,
-				file: MainSource.defaultFile.id,
+				source: HandlerSource.id,
+				tag: HandlerSource.defaultTag,
+				category: HandlerSource.defaultFile.category,
+				file: HandlerSource.defaultFile.id,
 			},
 		});
 	}
@@ -137,30 +131,24 @@ const watchRoute = async () => {
 		return router.replace({
 			name: 'docs-source-tag-category-file',
 			params: {
-				source: source.value?.id ?? MainSource.id,
+				source: source.value?.id ?? HandlerSource.id,
 				// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 				tag: source.value?.recentTag || source.value?.defaultTag,
-				category: source.value?.defaultFile.category ?? MainSource.defaultFile.category,
-				file: source.value?.defaultFile.id ?? MainSource.defaultFile.id,
+				category: source.value?.defaultFile.category ?? HandlerSource.defaultFile.category,
+				file: source.value?.defaultFile.id ?? HandlerSource.defaultFile.id,
 			},
 		});
 	}
 
 	// Redirect to a default route
-	if (
-		!route.params.file &&
-		!route.params.class &&
-		!route.params.function &&
-		!route.params.typedef &&
-		route.name !== 'docs-source-tag-search'
-	) {
+	if (!route.params.file && !route.params.class && !route.params.typedef && route.name !== 'docs-source-tag-search') {
 		return router.replace({
 			name: 'docs-source-tag-category-file',
 			params: {
-				source: source.value?.id ?? MainSource.id,
-				tag: tag.value ?? MainSource.defaultTag,
-				category: source.value?.defaultFile.category ?? MainSource.defaultFile.category,
-				file: source.value?.defaultFile.id ?? MainSource.defaultFile.id,
+				source: source.value?.id ?? HandlerSource.id,
+				tag: tag.value ?? HandlerSource.defaultTag,
+				category: source.value?.defaultFile.category ?? HandlerSource.defaultFile.category,
+				file: source.value?.defaultFile.id ?? HandlerSource.defaultFile.id,
 			},
 		});
 	}
