@@ -1,15 +1,13 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-import { defineConfig } from 'vite';
-import Vue from '@vitejs/plugin-vue';
-import { VitePWA } from 'vite-plugin-pwa';
-import Pages from 'vite-plugin-pages';
-import ViteComponents from 'vite-plugin-components';
-import ViteIcons, { ViteIconsResolver } from 'vite-plugin-icons';
-import { resolve } from 'path';
 import { execSync } from 'child_process';
 import { readFileSync } from 'fs';
+import { resolve } from 'path';
+import Vue from '@vitejs/plugin-vue';
+import IconsResolver from 'unplugin-icons/resolver';
+import Icons from 'unplugin-icons/vite';
+import Components from 'unplugin-vue-components/vite';
+import { defineConfig } from 'vite';
+import Pages from 'vite-plugin-pages';
+import { VitePWA } from 'vite-plugin-pwa';
 
 export default defineConfig({
 	resolve: {
@@ -19,6 +17,7 @@ export default defineConfig({
 	},
 	define: {
 		GIT_COMMIT_HASH: JSON.stringify(execSync('git rev-parse HEAD').toString().trim()),
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 		PACKAGE_VERSION: JSON.stringify(JSON.parse(readFileSync('package.json', 'utf-8')).version),
 		BUILT_AT: JSON.stringify(Date.now()),
 	},
@@ -34,12 +33,12 @@ export default defineConfig({
 			manifest: {
 				theme_color: '#090a16',
 				background_color: '#090a16',
-				name: '@djs-modules Docs',
-				short_name: '@djs-modules Docs',
+				name: 'Discord.js Docs',
+				short_name: 'd.js Docs',
 				start_url: '.',
 				display: 'standalone',
 				description:
-					'@djs-modules is a small organization that contains modules that can create different systems in your Discord bot',
+					"Discord.js is a powerful Node.js module that allows you to interact with the Discord API very easily. It takes a much more object-oriented approach than most other JS Discord libraries, making your bot's code significantly tidier and easier to comprehend.",
 				icons: [
 					{
 						src: '/android-chrome-192x192.png',
@@ -56,14 +55,10 @@ export default defineConfig({
 				],
 			},
 		}),
-		ViteComponents({
-			customComponentResolvers: [
-				ViteIconsResolver({
-					componentPrefix: '',
-				}),
-			],
+		Components({
+			resolvers: [IconsResolver({ prefix: '' })],
 		}),
-		ViteIcons(),
+		Icons(),
 	],
 
 	optimizeDeps: {
